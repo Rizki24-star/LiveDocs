@@ -22,7 +22,7 @@ export const createDocument = async ({
     const room = await liveblocks.createRoom(roomId, {
       metadata,
       usersAccesses,
-      defaultAccesses: [],
+      defaultAccesses: ["room:write"],
     });
 
     return parseStringify(room);
