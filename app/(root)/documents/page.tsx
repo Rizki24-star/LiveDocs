@@ -1,8 +1,7 @@
-import { metadata } from "@/app/layout";
 import AddDocumentBtn from "@/components/AddDocumentBtn";
 import Header from "@/components/Header";
 import { Button } from "@/components/ui/button";
-import { getDocument } from "@/lib/actions/room.actions";
+import { getDocuments } from "@/lib/actions/room.actions";
 import { dateConverter } from "@/lib/utils";
 import { SignedIn, UserButton } from "@clerk/nextjs";
 import { currentUser } from "@clerk/nextjs/server";
@@ -15,7 +14,7 @@ const page = async () => {
 
   if (!clerkUser) redirect("/sign-in");
 
-  const roomDocuments = await getDocument(
+  const roomDocuments = await getDocuments(
     clerkUser.emailAddresses[0].emailAddress
   );
 
@@ -40,25 +39,30 @@ const page = async () => {
           </div>
           <ul className="document-ul">
             {roomDocuments.data.map(({ id, metadata, createdAt }: any) => (
-              <Link
-                href={`/documents/${id}`}
-                className="flex flex-1 items-center gap-4"
-              >
-                <div className="hidden rounded-md bg-dark-500 p-2 sm:block">
-                  <Image
-                    src="/assets/icons/doc.svg"
-                    alt="file"
-                    width={40}
-                    height={40}
-                  />
-                </div>
-                <div className="space-y-1">
-                  <p className="line-clamp-1 text-lg">{metadata.title}</p>
-                  <p className="text-sm font-light text-blue-100">
-                    Created about {dateConverter(createdAt)}
-                  </p>
-                </div>
-              </Link>
+              <li className="document-list-item">
+                <Link
+                  href={`/documents/${id}`}
+                  className="flex flex-1 items-center gap-4"
+                >
+                  <div className="hidden rounded-md bg-dark-500 p-2 sm:block">
+                    <Image
+                      src="/assets/icons/doc.svg"
+                      alt="file"
+                      width={40}
+                      height={40}
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <p className="line-clamp-1 text-lg">{metadata.title}</p>
+                    <p className="text-sm font-light text-blue-100">
+                      Created about {dateConverter(createdAt)}
+                    </p>
+                  </div>
+                </Link>
+                {
+                  // TODO: deleted button
+                }
+              </li>
             ))}
           </ul>
         </div>

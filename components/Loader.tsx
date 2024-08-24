@@ -11,6 +11,7 @@ const Loader = () => {
         height={32}
         className="animate-spin"
       />
+      <p>Loading...</p>
     </div>
   );
 };
